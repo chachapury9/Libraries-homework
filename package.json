@@ -7,7 +7,8 @@
   "type": "module",
   "scripts": {
     "start": "parcel src/index.html",
-    "dev": ""
+    "build": "parcel build src/index.html --public-url ./",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@pnotify/core": "^5.2.0",
