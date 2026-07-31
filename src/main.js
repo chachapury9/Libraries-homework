@@ -1,91 +1,51 @@
-import Chart from "chart.js/auto";
+import {
+  alert,
+  notice,
+  info,
+  success,
+  error,
+  defaultModules,
+} from "@pnotify/core/dist/PNotify.js";
+import "@pnotify/core/dist/BrightTheme.css";
 
-const graph = document.querySelector("#canvas");
+const keys = ["a", "x", "f", "w", "q", "e", "g", "h", "b", "m"];
+let curentKeyIndex = 0;
 
-const labels = [
-  "Січень",
-  "Лютий",
-  "Березень",
-  "Квітень",
-  "Травень",
-  "Червень",
-  "Липень",
-];
+const keyLabel = document.getElementById("keyToPress");
+keyLabel.textContent = keys[curentKeyIndex].toUpperCase();
 
-new Chart(graph, {
-  type: "bar",
+const gameStatus = document.getElementById("gameStatus");
 
-  data: {
-    labels: labels,
+const newGameBtn = document.getElementById("newGameBtn");
 
-    datasets: [
-      {
-        label: "Продажі",
+document.addEventListener("keydown", (e) => {
+  if (e.key === keys[curentKeyIndex]) {
+    console.log("the correct key was pressed");
+    curentKeyIndex++;
+    keyLabel.textContent = keys[curentKeyIndex].toUpperCase();
 
-        data: [65, 59, 80, 81, 56, 55, 40],
+    const mySucces = success({
+      text: "You've pressed the right key!",
+    });
+    gameStatus.textContent = "Win";
+  } else {
+    console.log("the wrong key was pressed");
 
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-          "rgba(255, 205, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(201, 203, 207, 0.2)",
-        ],
-
-        borderColor: [
-          "rgb(255, 99, 132)",
-          "rgb(255, 159, 64)",
-          "rgb(255, 205, 86)",
-          "rgb(75, 192, 192)",
-          "rgb(54, 162, 235)",
-          "rgb(153, 102, 255)",
-          "rgb(201, 203, 207)",
-        ],
-
-        borderWidth: 1,
-      },
-    ],
-  },
-
-  options: {
-    responsive: true,
-
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  },
+    const myError = error({
+      text: "You've pressed the wrong key!",
+    });
+    gameStatus.textContent = "Loss";
+  }
 });
-// const users = [
-//   {
-//     id: nanoid(4),
-//     name: "Sasha",
-//   },
 
-//   {
-//     id: nanoid(4),
-//     name: "Matviy",
-//   },
+document.addEventListener("keypress", (e) => {
+  e.preventDefault();
+});
 
-//   {
-//     id: nanoid(4),
-//     name: "Eldar",
-//   },
-
-//   {
-//     id: nanoid(4),
-//     name: "Valentyn",
-//   },
-
-//   {
-//     id: nanoid(4),
-//     name: "Kolya",
-//   },
-// ];
-
-// users.forEach((item) => {
-//   console.log(`Name: ${item.name}, ID: ${item.id}`);
-// });
+newGameBtn.addEventListener("click", () => {
+  curentKeyIndex = 0;
+  const myInfo = info({
+    text: "A new game has just started",
+  });
+  keyLabel.textContent = keys[curentKeyIndex].toUpperCase();
+});
